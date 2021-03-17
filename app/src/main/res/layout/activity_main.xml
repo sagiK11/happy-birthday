@@ -34,6 +34,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
+            android:id="@+id/birthday_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="6dp"
@@ -45,16 +46,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageButton
-                android:id="@+id/imageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/camera_icon_green" />
-
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/default_place_holder_blue" />
+
+            <ImageButton
+                android:id="@+id/button_add_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="90dp"
+                android:background="@null"
+                app:srcCompat="@drawable/camera_icon_green" />
         </FrameLayout>
 
         <Button
