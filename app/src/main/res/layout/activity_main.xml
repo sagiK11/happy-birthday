@@ -41,10 +41,21 @@
             android:textColor="@color/black"
             android:textSize="30sp" />
 
-        <ImageView
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/camera_icon_green" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/default_place_holder_blue" />
+        </FrameLayout>
 
         <Button
             android:id="@+id/button_open_birthday_screen"
