@@ -1,51 +1,92 @@
 package sagikor.android.happybirthday.presenter;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 
 
-import android.util.Log;
-import android.view.View;
-
-import java.util.Date;
+import com.google.gson.Gson;
 
 import sagikor.android.happybirthday.model.Baby;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class MainActivityPresenter implements MainActivityContract.Presenter {
     private final Baby baby;
     private final MainActivityContract.View view;
+    private final Context context;
+    private boolean isNavigationButtonEnabled;
+    final static String KEY = "BABY_OBJECT";
 
-    public MainActivityPresenter(MainActivityContract.View view){
+    public MainActivityPresenter(MainActivityContract.View view, Context context) {
         this.baby = new Baby();
         this.view = view;
+        this.context = context;
     }
 
-    public void setName(String name){
-        baby.setName(name);
-        if(testInput())
-            enableNavigationButton();
+    public void setName(String name) {
+        if (isValidInput(name)) {
+            baby.setName(name);
+            if (isValidInput(baby.getBirthday()) && isDateFormat(baby.getBirthday()))
+                enableNavigationButton();
+        } else {
+            disableNavigationButton();
+        }
     }
 
-    public void setBirthday(String birthday){
-        baby.setBirthday(birthday);
-        view.setBirthday(baby.getBirthday());
-        if(testInput())
-            enableNavigationButton();
+    public void setBirthday(String birthday) {
+        if (isValidInput(birthday) && isDateFormat(birthday)) {
+            baby.setBirthday(birthday);
+            view.setBirthday(baby.getBirthday());
+            if (isValidInput(baby.getName()))
+                enableNavigationButton();
+        } else {
+            disableNavigationButton();
+        }
     }
-    public void setImage(String url){
+
+    public void setImage(String url) {
         baby.setImagePath(url);
         view.setImage(url);
-        if(testInput())
-            enableNavigationButton();
     }
 
     @Override
     public void enableNavigationButton() {
+        isNavigationButtonEnabled = true;
         view.enableNavigationButton();
     }
-    private boolean testInput(){
-        return isValidInput(baby.getName()) && isValidInput(baby.getBirthday())
-                && isValidInput(baby.getImagePath());
+
+    @Override
+    public void disableNavigationButton() {
+        isNavigationButtonEnabled = false;
+        view.disableNavigationButton();
     }
+
+    @Override
+    public void onBirthdayButtonClick() {
+        if (isNavigationButtonEnabled) {
+            saveModel();
+            view.navigateToBirthdayScreen();
+        }
+    }
+
+
+    private void saveModel() {
+        final String packageName = context.getPackageName();
+        SharedPreferences.Editor prefsEditor = context.getSharedPreferences(packageName, MODE_PRIVATE).edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(this.baby);
+        prefsEditor.putString(KEY, json);
+        prefsEditor.apply();
+    }
+
+
     private boolean isValidInput(String input) {
         return input != null && input.length() != 0;
     }
+
+    private boolean isDateFormat(String input) {
+        final String textFieldLabel = "Birthday";
+        return !input.equals(textFieldLabel);
+    }
+
 }

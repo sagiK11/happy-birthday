@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        presenter = new MainActivityPresenter(this);
+        presenter = new MainActivityPresenter(this, this.getApplicationContext());
         bindViews();
         bOpenBirthDayScreen.setEnabled(false);
         addViewsOnClickListeners();
@@ -45,12 +45,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
 
     private void addViewsOnClickListeners() {
         initDatePicker();
-
         bAddImage.setOnClickListener(e -> addImage());
-        bOpenBirthDayScreen.setOnClickListener(e -> navigateToBirthdayScreen());
+        bOpenBirthDayScreen.setOnClickListener(e -> presenter.onBirthdayButtonClick());
         tBirthdayDate.setOnClickListener(e -> datePickerDialog.show());
-        tName.addTextChangedListener( (NameTextWatcher)  (consequence, start,end,count) ->
-                presenter.setName(consequence.toString()));
+        tName.addTextChangedListener((NameTextWatcher)
+                (charSequence, start, count, after) ->
+                        presenter.setName(charSequence.toString()));
     }
 
 
@@ -106,10 +106,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         }
     }
 
-    @Override
-    public void setName(String name) {
-        tName.setText(name);
-    }
 
     @Override
     public void setBirthday(String date) {
@@ -134,14 +130,19 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         bOpenBirthDayScreen.setEnabled(true);
     }
 
-    private interface NameTextWatcher extends TextWatcher{
+    @Override
+    public void disableNavigationButton() {
+        bOpenBirthDayScreen.setEnabled(false);
+    }
+
+    private interface NameTextWatcher extends TextWatcher {
         @Override
-        default void onTextChanged(CharSequence s, int start, int before, int count){
+        default void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
 
         }
 
         @Override
-        default void afterTextChanged(Editable s){
+        default void afterTextChanged(Editable editable) {
 
         }
     }

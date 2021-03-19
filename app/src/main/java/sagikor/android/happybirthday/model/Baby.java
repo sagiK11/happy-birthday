@@ -1,6 +1,5 @@
 package sagikor.android.happybirthday.model;
 
-import java.util.Date;
 
 public class Baby {
     private String name;
@@ -29,5 +28,11 @@ public class Baby {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    @Override
+    public String toString() {
+        return "\nname: " + this.getName()
+                + "\nbirthday: " + this.getBirthday() + "\n";
     }
 }
