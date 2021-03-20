@@ -4,6 +4,7 @@ package sagikor.android.happybirthday.view;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,7 +22,7 @@ public class BirthdayActivity extends AppCompatActivity implements BirthdayActiv
     ImageView iBabyImage;
     ImageButton bClose;
     ImageButton bChangeImage;
-    ImageButton bShareNews;
+    FrameLayout bShareNews;
     TextView tNameTitle;
     TextView tAgeTitle;
 
