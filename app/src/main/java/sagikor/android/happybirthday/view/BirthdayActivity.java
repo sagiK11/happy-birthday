@@ -2,14 +2,26 @@ package sagikor.android.happybirthday.view;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.FileProvider;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import sagikor.android.happybirthday.R;
 import sagikor.android.happybirthday.presenter.BirthdayActivityContract;
@@ -25,6 +37,7 @@ public class BirthdayActivity extends AppCompatActivity implements BirthdayActiv
     FrameLayout bShareNews;
     TextView tNameTitle;
     TextView tAgeTitle;
+    ConstraintLayout root;
 
 
     @Override
@@ -46,6 +59,7 @@ public class BirthdayActivity extends AppCompatActivity implements BirthdayActiv
         tAgeTitle = findViewById(R.id.title_age);
         bShareNews = findViewById(R.id.share_button);
         iBabyImage = findViewById(R.id.baby_image);
+        root = findViewById(R.id.screen);
     }
 
     private void addViewsOnClickListeners() {
@@ -103,4 +117,53 @@ public class BirthdayActivity extends AppCompatActivity implements BirthdayActiv
                 .circleCrop()
                 .into(iBabyImage);
     }
+
+    @Override
+    public void shareScreenWithFriends() {
+        //hide the relevant views.
+        changeRelevantViewsVisibilities(View.GONE);
+        //take screenshot
+        Uri uriToImage = getImageUri();
+        //open share menu
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, uriToImage);
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        shareIntent.setType("image/jpeg");
+        startActivity(Intent.createChooser(shareIntent, "Share the news!"));
+        //show the views back.
+        changeRelevantViewsVisibilities(View.VISIBLE);
+    }
+
+    private Uri getImageUri() {
+        Bitmap bitmap = getBitmap(root);
+        File file = new File(getExternalCacheDir(), "screenshot.jpeg");
+        file.setReadable(true, false);
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
+            fileOutputStream.flush();
+            fileOutputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String authority = getApplicationContext().getPackageName() + ".provider";
+        return FileProvider.getUriForFile(this, authority, file);
+    }
+
+
+    private void changeRelevantViewsVisibilities(int visibility) {
+        bShareNews.setVisibility(visibility);
+        bChangeImage.setVisibility(visibility);
+        bClose.setVisibility(visibility);
+    }
+
+    private Bitmap getBitmap(View root) {
+        Bitmap result = Bitmap.createBitmap(root.getWidth(), root.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(result);
+        canvas.drawColor(Color.WHITE);
+        root.draw(canvas);
+        return result;
+    }
+
 }

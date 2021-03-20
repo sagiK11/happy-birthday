@@ -17,5 +17,6 @@ public interface BirthdayActivityContract {
         void setImage(String url);
         void replaceImage();
         void navigateToPreviousScreen();
+        void shareScreenWithFriends();
     }
 }

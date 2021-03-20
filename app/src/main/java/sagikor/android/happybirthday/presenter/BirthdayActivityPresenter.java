@@ -40,7 +40,7 @@ public class BirthdayActivityPresenter implements BirthdayActivityContract.Prese
 
     @Override
     public void onShareNewsClick() {
-        //TODO bonus
+        view.shareScreenWithFriends();
     }
 
     public void loadModel() {
