@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/screen"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -10,15 +9,17 @@
     <ImageView
         android:id="@+id/baby_image"
         android:layout_width="0dp"
-        android:layout_height="281dp"
-        android:layout_marginStart="65dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="65dp"
-        android:layout_marginBottom="80dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintBottom_toBottomOf="@id/background_image_view"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="@id/background_image_view"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.37"
+        app:layout_constraintStart_toStartOf="@id/background_image_view"
+        app:layout_constraintTop_toTopOf="@id/background_image_view"
+        app:layout_constraintVertical_bias="0.75"
         app:srcCompat="@drawable/default_place_holder_green" />
 
     <ImageView
@@ -28,7 +29,6 @@
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
@@ -36,21 +36,26 @@
 
     <ImageButton
         android:id="@+id/change_image_button"
-        android:layout_width="36dp"
+        android:layout_width="wrap_content"
         android:layout_height="36dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="50dp"
         android:background="@null"
         android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="@+id/baby_image"
+        app:layout_constraintEnd_toEndOf="@+id/baby_image"
+        app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toStartOf="@+id/baby_image"
         app:layout_constraintTop_toTopOf="@+id/baby_image"
+        app:layout_constraintVertical_bias="0.100000024"
         app:srcCompat="@drawable/camera_icon_blue" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="393dp"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="20dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/baby_image"
         app:layout_constraintEnd_toEndOf="parent"
@@ -67,7 +72,6 @@
             android:gravity="center"
             android:maxLines="2"
             android:padding="6dp"
-            android:text="DUMMY TEXT"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -113,23 +117,38 @@
             android:gravity="center"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
-            android:text="MONTHS OLD"
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <ImageButton
+        <FrameLayout
             android:id="@+id/share_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
-            android:layout_marginEnd="50dp"
-            android:background="@null"
-            android:gravity="center"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:src="@drawable/btn_share"
-            android:text="Share the news"
-            android:textSize="18sp" />
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="60dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:src="@drawable/btn_share" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:drawableRight="@drawable/ic_share_pink"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="Share the news"
+                android:textColor="#B5EC1919"
+                android:textSize="16sp" />
+        </FrameLayout>
     </LinearLayout>
 
     <ImageButton
