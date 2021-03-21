@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         tBirthdayDate.setOnClickListener(e -> datePickerDialog.show());
         tName.addTextChangedListener((NameTextWatcher)
                 (charSequence, start, count, after) ->
-                        presenter.setName(charSequence.toString()));
+                        presenter.setName(charSequence.toString().trim()));
     }
 
 
