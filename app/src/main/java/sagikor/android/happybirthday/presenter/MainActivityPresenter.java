@@ -2,6 +2,7 @@ package sagikor.android.happybirthday.presenter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 
 import com.google.gson.Gson;
@@ -24,24 +25,25 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
     }
 
     public void setName(String name) {
-        if (isValidInput(name)) {
+        if (isOnlyAlphabet(name)) {
             baby.setName(name);
-            if (isValidInput(baby.getBirthday()) && isDateFormat(baby.getBirthday()))
+            if (isNonEmptyInput(baby.getBirthday()))
                 enableNavigationButton();
         } else {
+            final String message = "Please enter english characters only";
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+            baby.resetName();
             disableNavigationButton();
         }
     }
 
     public void setBirthday(String birthday) {
-        if (isValidInput(birthday) && isDateFormat(birthday)) {
-            baby.setBirthday(birthday);
-            view.setBirthday(baby.getBirthday());
-            if (isValidInput(baby.getName()))
-                enableNavigationButton();
-        } else {
+        baby.setBirthday(birthday);
+        view.setBirthday(birthday);
+        if (isOnlyAlphabet(baby.getName()))
+            enableNavigationButton();
+        else
             disableNavigationButton();
-        }
     }
 
     public void setImage(String url) {
@@ -69,7 +71,6 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
         }
     }
 
-
     private void saveModel() {
         final String packageName = context.getPackageName();
         SharedPreferences.Editor prefsEditor = context.getSharedPreferences(packageName, MODE_PRIVATE).edit();
@@ -79,14 +80,11 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
         prefsEditor.apply();
     }
 
-
-    private boolean isValidInput(String input) {
+    private boolean isNonEmptyInput(String input) {
         return input != null && input.length() != 0;
     }
 
-    private boolean isDateFormat(String input) {
-        final String textFieldLabel = "Birthday";
-        return !input.equals(textFieldLabel);
+    private boolean isOnlyAlphabet(String str) {
+        return isNonEmptyInput(str) && str.matches("^[ A-Za-z]+$");
     }
-
 }

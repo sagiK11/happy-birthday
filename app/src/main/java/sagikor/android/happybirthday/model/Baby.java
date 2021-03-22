@@ -30,6 +30,10 @@ public class Baby {
         this.imagePath = imagePath;
     }
 
+    public void resetName(){
+        this.name = "";
+    }
+
     @Override
     public String toString() {
         return "\nname: " + this.getName()
