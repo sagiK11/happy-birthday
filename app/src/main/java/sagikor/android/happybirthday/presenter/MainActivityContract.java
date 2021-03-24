@@ -8,6 +8,7 @@ public interface MainActivityContract {
         void enableNavigationButton();
         void disableNavigationButton();
         void navigateToBirthdayScreen();
+        void popErrorMessage(String message);
     }
 
     interface Presenter {

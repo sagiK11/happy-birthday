@@ -2,7 +2,6 @@ package sagikor.android.happybirthday.presenter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.widget.Toast;
 
 
 import com.google.gson.Gson;
@@ -31,7 +30,7 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
                 enableNavigationButton();
         } else {
             final String message = "Please enter english characters only";
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+            view.popErrorMessage(message);
             baby.resetName();
             disableNavigationButton();
         }
