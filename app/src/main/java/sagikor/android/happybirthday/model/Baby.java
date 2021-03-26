@@ -5,6 +5,20 @@ public class Baby {
     private String name;
     private String date;
     private String imagePath;
+    private static volatile Baby instance;
+
+    private Baby(){
+    }
+
+    public static Baby getInstance(){
+        if(instance == null){
+            synchronized (Baby.class){
+                if(instance == null)
+                    instance = new Baby();
+            }
+        }
+        return instance;
+    }
 
     public String getName() {
         return name;

@@ -1,10 +1,5 @@
 package sagikor.android.happybirthday.presenter;
 
-import android.content.Context;
-import android.util.Log;
-
-import com.google.gson.Gson;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,15 +10,13 @@ import sagikor.android.happybirthday.model.Baby;
 
 public class BirthdayActivityPresenter implements BirthdayActivityContract.Presenter {
 
-    private Baby baby;
+    private final Baby baby;
     private final BirthdayActivityContract.View view;
-    private final Context context;
     private final static String TAG = "BirthActivityPresenter";
 
-    public BirthdayActivityPresenter(BirthdayActivityContract.View view, Context context) {
+    public BirthdayActivityPresenter(BirthdayActivityContract.View view) {
         this.view = view;
-        this.context = context;
-        loadModel();
+        baby = Baby.getInstance();
         selectTheme();
         updateViews();
     }
@@ -41,15 +34,6 @@ public class BirthdayActivityPresenter implements BirthdayActivityContract.Prese
     @Override
     public void onShareNewsClick() {
         view.shareScreenWithFriends();
-    }
-
-    public void loadModel() {
-        final String packageName = context.getPackageName();
-        final String KEY = MainActivityPresenter.KEY;
-        Gson gson = new Gson();
-        String json = context.getSharedPreferences(packageName, Context.MODE_PRIVATE).getString(KEY, "");
-        this.baby = gson.fromJson(json, Baby.class);
-        Log.d(TAG, "loadModel: " + this.baby);
     }
 
     public void selectTheme() {

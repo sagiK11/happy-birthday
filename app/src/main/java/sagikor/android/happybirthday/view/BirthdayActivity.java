@@ -46,7 +46,7 @@ public class BirthdayActivity extends AppCompatActivity implements BirthdayActiv
         setContentView(R.layout.activity_birthday);
         bindViews();
         addViewsOnClickListeners();
-        presenter = new BirthdayActivityPresenter(this, this.getApplicationContext());
+        presenter = new BirthdayActivityPresenter(this);
 
     }
 

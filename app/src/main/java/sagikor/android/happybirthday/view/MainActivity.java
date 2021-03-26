@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        presenter = new MainActivityPresenter(this, this.getApplicationContext());
+        presenter = new MainActivityPresenter(this);
         bindViews();
         bOpenBirthDayScreen.setEnabled(false);
         addViewsOnClickListeners();
