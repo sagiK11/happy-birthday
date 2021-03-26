@@ -97,11 +97,12 @@ public class BirthdayActivityPresenter implements BirthdayActivityContract.Prese
         view.setAgeTitle(ageTitle);
     }
 
-    private static class DateDifference {
+    public static class DateDifference {
         private final int months;
         private final int years;
+        private final int days;
 
-        DateDifference(String birthday) {
+        public DateDifference(String birthday) {
             Date Birthday = null;
             Date currentDate = new Date(System.currentTimeMillis());
             try {
@@ -112,7 +113,7 @@ public class BirthdayActivityPresenter implements BirthdayActivityContract.Prese
 
             final int SECONDS_IN_MINUTE = 60;
             final int MINUTES_IN_HOUR = 60;
-            final int DAYS_IN_MONTH = 30;
+            final float DAYS_IN_MONTH = 30.436875f;
             final int MONTHS_IN_YEAR = 12;
             final int HOURS_IN_DAY = 24;
             final long SECONDS_IN_MILLI = 1000;
@@ -122,9 +123,13 @@ public class BirthdayActivityPresenter implements BirthdayActivityContract.Prese
             long different = currentDate.getTime() - Birthday.getTime();
             long daysInMilli = HOURS_IN_MILLI * HOURS_IN_DAY;
 
-            final int days = (int) (different / daysInMilli);
-            this.months = days / DAYS_IN_MONTH;
+            this.days = (int) (different / daysInMilli) +1;
+            this.months = (int)(days / DAYS_IN_MONTH);
             this.years = months / MONTHS_IN_YEAR;
+        }
+
+        public int getDays() {
+            return days;
         }
 
         public int getMonths() {
